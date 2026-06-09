@@ -7,6 +7,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -15,9 +16,11 @@ export default function Register() {
     setError(null);
     try {
       await register({ name, email, password });
-      navigate('/login', { state: { message: 'Registration successful. Please log in.' } });
+      navigate('/', { state: { message: 'Registration successful. Please log in.' } });
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      const res = err.response?.data;
+      const msg = res?.message || (res?.errors && res.errors.map((x) => x.msg).join(', ')) || 'Registration failed';
+      setError(msg);
     }
   };
 
@@ -36,12 +39,24 @@ export default function Register() {
         </div>
         <div className="mb-3">
           <label className="form-label">Password</label>
-          <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+          <div className="input-group">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+            <button type="button" className="btn btn-outline-secondary" onClick={() => setShowPassword((s) => !s)}>
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
         </div>
         <button className="btn btn-primary" type="submit">Register</button>
       </form>
       <p className="mt-3 text-secondary">
-        Already have an account? <Link to="/login">Login</Link>
+        Already have an account? <Link to="/">Login</Link>
       </p>
     </div>
   );

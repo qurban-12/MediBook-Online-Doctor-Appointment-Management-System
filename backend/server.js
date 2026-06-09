@@ -74,11 +74,30 @@ app.listen(PORT, () => {
 });
 
 // Connect to MongoDB
+let dbConnected = false;
+
 mongoose.connect(MONGO_URI)
     .then(() => {
+        dbConnected = true;
         console.log('Connected to MongoDB Successfully!');
     })
     .catch((error) => {
+        dbConnected = false;
         console.error('MongoDB connection error (Network/DNS Block):', error.message);
         console.log('Please note: The API server is still running, but database features will wait for network resolution.');
     });
+
+mongoose.connection.on('connected', () => {
+    dbConnected = true;
+    console.log('Mongoose: connected to MongoDB');
+});
+
+mongoose.connection.on('disconnected', () => {
+    dbConnected = false;
+    console.warn('Mongoose: disconnected from MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+    dbConnected = false;
+    console.error('Mongoose connection error:', err && err.message);
+});

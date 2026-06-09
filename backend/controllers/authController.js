@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -6,6 +7,10 @@ const jwt = require('jsonwebtoken');
 // @desc    Register a user (Patient or Admin)
 exports.register = async (req, res) => {
     try {
+        // If DB is not connected, return a clear 503 so frontend can show helpful message
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+        }
         const { name, email, password, role } = req.body;
 
         // Check if user already exists
@@ -31,7 +36,11 @@ exports.register = async (req, res) => {
         // Following the requirement message: "Record created successfully"
         res.status(201).json({ message: 'Record created successfully' });
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
+        // If mongoose buffering/connection error, return 503 instead of generic 500
+        if (error.name === 'MongooseError' || /buffering timed out/i.test(error.message || '')) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+        }
         res.status(500).json({ message: 'Something went wrong. Please try again later' });
     }
 };
@@ -40,6 +49,9 @@ exports.register = async (req, res) => {
 // @desc    Authenticate user & get token
 exports.login = async (req, res) => {
     try {
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+        }
         const { email, password } = req.body;
 
         // Check for user
@@ -73,6 +85,9 @@ exports.login = async (req, res) => {
         );
     } catch (error) {
         console.error(error.message);
+        if (error.name === 'MongooseError' || /buffering timed out/i.test(error.message || '')) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+        }
         res.status(500).json({ message: 'Something went wrong. Please try again later' });
     }
 };

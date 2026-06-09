@@ -7,19 +7,19 @@ export default function AppNavbar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div className="container">
-        <Link className="navbar-brand fw-semibold" to="/">MediBook</Link>
+        <Link className="navbar-brand fw-semibold" to="/home">MediBook</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="mainNav">
           <div className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-            <Link className="nav-link text-white" to="/">Home</Link>
+            <Link className="nav-link text-white" to="/home">Home</Link>
             <Link className="nav-link text-white" to="/doctors">Doctors</Link>
             {user ? (
               <>
@@ -31,7 +31,7 @@ export default function AppNavbar() {
               </>
             ) : (
               <>
-                <Link className="nav-link text-white" to="/login">Login</Link>
+                <Link className="nav-link text-white" to="/">Login</Link>
                 <Link className="btn btn-light btn-sm ms-lg-2" to="/register">Register</Link>
               </>
             )}
