@@ -9,10 +9,12 @@ export const AuthProvider = ({ children }) => {
     const userJson = localStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
   });
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) setAuthToken(token);
+    setReady(true);
   }, []);
 
   const register = async (data) => {
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     return updated;
   };
 
-  const value = useMemo(() => ({ user, register, login, logout, updateProfile }), [user]);
+  const value = useMemo(() => ({ user, register, login, logout, updateProfile, ready }), [user, ready]);
 
   return (
     <AuthContext.Provider value={value}>

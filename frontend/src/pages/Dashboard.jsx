@@ -43,10 +43,10 @@ export default function Dashboard() {
     loadData();
   }, []);
 
-  const recentAppointments = useMemo(() => {
+  const sortedAppointments = useMemo(() => {
     return [...appointments]
       .sort((left, right) => new Date(right.createdAt || right.appointmentDate) - new Date(left.createdAt || left.appointmentDate))
-      .slice(0, 5);
+      .slice(0, 10);
   }, [appointments]);
 
   const statusBadgeClass = (status) => {
@@ -161,48 +161,39 @@ export default function Dashboard() {
 
       <div className="mt-5">
         <div className="d-flex align-items-center justify-content-between mb-3">
-          <h2 className="h4 mb-0">Recent Appointments</h2>
-          <span className="text-secondary small">Latest {recentAppointments.length} records</span>
+          <div>
+            <h2 className="h4 mb-0">My Appointments</h2>
+            <p className="text-secondary small mb-0">Upcoming, completed, and cancelled entries in one place.</p>
+          </div>
+          <span className="text-secondary small">Showing {sortedAppointments.length} records</span>
         </div>
         <div className="card shadow-sm border-0">
           <div className="table-responsive">
             <table className="table mb-0 align-middle">
               <thead className="table-light">
                 <tr>
-                  <th>Patient</th>
                   <th>Doctor</th>
                   <th>Date</th>
                   <th>Time</th>
                   <th>Status</th>
-                  {user?.role === 'admin' && <th className="text-end">Actions</th>}
                 </tr>
               </thead>
               <tbody>
-                {recentAppointments.length === 0 ? (
+                {sortedAppointments.length === 0 ? (
                   <tr>
-                    <td colSpan={user?.role === 'admin' ? 6 : 5} className="text-center py-4 text-secondary">
+                    <td colSpan={4} className="text-center py-4 text-secondary">
                       No appointments found.
                     </td>
                   </tr>
                 ) : (
-                  recentAppointments.map((appointment) => (
+                  sortedAppointments.map((appointment) => (
                     <tr key={appointment._id}>
-                      <td>{appointment.patientId?.name || 'Patient'}</td>
                       <td>{appointment.doctorId?.name || 'Doctor'}</td>
                       <td>{new Date(appointment.appointmentDate).toLocaleDateString()}</td>
                       <td>{appointment.timeSlot}</td>
                       <td>
                         <span className={`badge text-bg-${statusBadgeClass(appointment.status)}`}>{appointment.status}</span>
                       </td>
-                      {user?.role === 'admin' && (
-                        <td className="text-end">
-                          <div className="btn-group btn-group-sm" role="group">
-                            <button type="button" className="btn btn-outline-success" onClick={() => handleAppointmentStatus(appointment._id, 'Approved')} disabled={appointment.status === 'Approved'}>Approve</button>
-                            <button type="button" className="btn btn-outline-primary" onClick={() => handleAppointmentStatus(appointment._id, 'Completed')} disabled={appointment.status === 'Completed'}>Complete</button>
-                            <button type="button" className="btn btn-outline-secondary" onClick={() => handleAppointmentStatus(appointment._id, 'Cancelled')} disabled={appointment.status === 'Cancelled'}>Cancel</button>
-                          </div>
-                        </td>
-                      )}
                     </tr>
                   ))
                 )}
