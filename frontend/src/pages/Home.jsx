@@ -219,6 +219,7 @@ export default function Home() {
               className="text-decoration-none text-reset d-block mb-home-card-link"
               role="link"
               aria-label={`View profile: ${doctor.name}`}
+              aria-describedby={`doctor-summary-${doctor._id}`}
             >
               <div className="card shadow border-0 h-100 doctor-card mb-home-doctor-card mb-home-doctor-card--featured" tabIndex={-1}>
                 <div className="card-body text-center p-4 p-lg-5">
@@ -231,6 +232,9 @@ export default function Home() {
                   <h3 className="h5 mb-1">{doctor.name}</h3>
                   <p className="text-secondary mb-2">{doctor.specialization}</p>
                   <div className="small text-secondary mb-3">{doctor.experience} years experience · ${doctor.fee}</div>
+                  <p id={`doctor-summary-${doctor._id}`} className="visually-hidden">
+                    {doctor.name}, {doctor.specialization}. {doctor.experience} years experience. Consultation fee ${doctor.fee}.
+                  </p>
                   <div className="mt-2">
                     <span className="btn btn-primary btn-sm px-4">View profile</span>
                   </div>
