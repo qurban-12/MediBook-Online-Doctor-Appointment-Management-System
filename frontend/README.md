@@ -1,4 +1,17 @@
-# React + Vite
+# MediBook Frontend
+
+React + Vite client for MediBook.
+
+## Setup
+
+```bash
+cd frontend
+npm install
+copy .env.example .env
+npm run dev
+```
+
+Set `VITE_API_URL` to your backend API base, for example `http://localhost:5000/api`.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

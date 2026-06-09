@@ -1,25 +1,22 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { auth, setAuthToken } from '../services/api';
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [user, setUser] = useState(() => {
+    const userJson = localStorage.getItem('user');
+    return userJson ? JSON.parse(userJson) : null;
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const userJson = localStorage.getItem('user');
-    if (token) {
-      setAuthToken(token);
-    }
-    if (userJson) setUser(JSON.parse(userJson));
+    if (token) setAuthToken(token);
   }, []);
 
   const register = async (data) => {
-    const res = await auth.register(data);
-    return res;
+    return auth.register(data);
   };
 
   const login = async (data) => {
@@ -39,11 +36,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     setAuthToken(null);
     setUser(null);
-    navigate('/login');
   };
 
+  const value = useMemo(() => ({ user, register, login, logout }), [user]);
+
   return (
-    <AuthContext.Provider value={{ user, register, login, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
