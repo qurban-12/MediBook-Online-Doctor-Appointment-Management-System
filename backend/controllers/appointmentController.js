@@ -4,7 +4,9 @@ const Appointment = require('../models/Appointment');
 // @desc    Book a new appointment
 exports.bookAppointment = async (req, res) => {
     try {
-        const { patientId, doctorId, appointmentDate, timeSlot } = req.body;
+        // Prefer authenticated user as patientId; fall back to body
+        const { patientId: bodyPatientId, doctorId, appointmentDate, timeSlot } = req.body;
+        const patientId = req.user && req.user.id ? req.user.id : bodyPatientId;
 
         const newAppointment = new Appointment({
             patientId,

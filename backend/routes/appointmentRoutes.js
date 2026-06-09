@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { check } = require('express-validator');
+const validateRequest = require('../middleware/validateRequest');
+const auth = require('../middleware/auth');
 const {
     bookAppointment,
     getAllAppointments,
@@ -10,11 +13,22 @@ const {
 } = require('../controllers/appointmentController');
 
 // Define API routes for appointments
-router.post('/', bookAppointment);             // POST: Book new appointment
-router.get('/', getAllAppointments);           // GET: Fetch all appointments
-router.get('/:id', getAppointmentById);        // GET: Fetch single appointment
-router.put('/:id', updateAppointment);         // PUT: Update entire appointment
-router.patch('/:id', patchAppointmentStatus);  // PATCH: Update status specifically
-router.delete('/:id', deleteAppointment);      // DELETE: Cancel/Remove appointment
+router.post(
+    '/',
+    auth,
+    [
+        check('doctorId', 'Doctor ID is required').isMongoId(),
+        check('appointmentDate', 'Valid appointment date is required').isISO8601(),
+        check('timeSlot', 'Time slot is required').notEmpty()
+    ],
+    validateRequest,
+    bookAppointment
+); // POST: Book new appointment (authenticated)
+
+router.get('/', auth, getAllAppointments); // GET: Fetch all appointments (authenticated)
+router.get('/:id', auth, getAppointmentById); // GET: Fetch single appointment (authenticated)
+router.put('/:id', auth, updateAppointment); // PUT: Update entire appointment (authenticated)
+router.patch('/:id', auth, patchAppointmentStatus); // PATCH: Update status specifically (authenticated)
+router.delete('/:id', auth, deleteAppointment); // DELETE: Cancel/Remove appointment (authenticated)
 
 module.exports = router;

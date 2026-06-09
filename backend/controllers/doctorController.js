@@ -57,11 +57,16 @@ exports.getDoctorById = async (req, res) => {
 // @desc    Update a doctor completely (Replaces the whole record)
 exports.updateDoctor = async (req, res) => {
     try {
-        const { name, specialization, experience, fee, availableSlots, image } = req.body;
+        // Whitelist allowed fields to avoid injection
+        const allowedFields = ['name', 'specialization', 'experience', 'fee', 'availableSlots', 'image'];
+        const update = {};
+        allowedFields.forEach((f) => {
+            if (req.body[f] !== undefined) update[f] = req.body[f];
+        });
 
         const doctor = await Doctor.findByIdAndUpdate(
             req.params.id,
-            { name, specialization, experience, fee, availableSlots, image },
+            update,
             { new: true, runValidators: true }
         );
 
@@ -80,9 +85,16 @@ exports.updateDoctor = async (req, res) => {
 // @desc    Update specific fields of a doctor (Partial update)
 exports.patchDoctor = async (req, res) => {
     try {
+        // Only apply allowed fields from request body
+        const allowedFields = ['name', 'specialization', 'experience', 'fee', 'availableSlots', 'image'];
+        const update = {};
+        allowedFields.forEach((f) => {
+            if (req.body[f] !== undefined) update[f] = req.body[f];
+        });
+
         const doctor = await Doctor.findByIdAndUpdate(
             req.params.id,
-            { $set: req.body }, // Only updates the fields provided in req.body
+            update,
             { new: true, runValidators: true }
         );
 
