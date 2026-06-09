@@ -38,7 +38,7 @@ export default function Home() {
     <div className="container py-5">
       <section className="mb-home-hero p-4 p-lg-5 mb-4">
         <div className="row align-items-center g-4">
-        <div className="col-lg-7">
+          <div className="col-lg-7">
             <span className="badge text-bg-light text-primary mb-3">MediBook Healthcare Platform</span>
             <h1 className="display-5 fw-bold text-white">Welcome to MediBook.</h1>
             <p className="lead text-white-50 mt-3 mb-4">
@@ -53,8 +53,8 @@ export default function Home() {
                 <span>Browse Doctors</span>
               </Link>
             </div>
-        </div>
-        <div className="col-lg-5">
+          </div>
+          <div className="col-lg-5">
             <div className="card border-0 shadow-lg h-100 mb-home-hero__card">
               <div className="card-body p-4 p-lg-5">
                 <h2 className="h4 text-primary">About the system</h2>
@@ -79,14 +79,33 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </div>
       </section>
 
       {pageError && <div className="alert alert-danger">{pageError}</div>}
 
       <div className="row g-3 mb-4">
-        {highlights.map((item) => (
+        <div className="col-md-6">
+          <div className="card shadow-sm border-0 h-100 mb-home-metric mb-home-metric--featured">
+            <div className="card-body p-4 p-lg-5">
+              <div className="text-secondary fw-semibold text-uppercase small mb-2">Total doctors</div>
+              <div className="mb-home-metric__value mb-home-metric__value--featured">{stats.totalDoctors}</div>
+              <p className="text-secondary mb-0">Available doctors ready to consult and book.</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="card shadow-sm border-0 h-100 mb-home-metric mb-home-metric--featured">
+            <div className="card-body p-4 p-lg-5">
+              <div className="text-secondary fw-semibold text-uppercase small mb-2">Total appointments</div>
+              <div className="mb-home-metric__value mb-home-metric__value--featured">{stats.totalAppointments}</div>
+              <p className="text-secondary mb-0">Appointments booked across the platform.</p>
+            </div>
+          </div>
+        </div>
+
+        {highlights.slice(2).map((item) => (
           <div className="col-6 col-lg-3" key={item.label}>
             <div className="card shadow-sm border-0 h-100 mb-home-metric">
               <div className="card-body text-center p-4">
