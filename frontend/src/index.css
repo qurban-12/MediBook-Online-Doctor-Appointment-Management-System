@@ -336,3 +336,30 @@ body {
     flex: 1 1 calc(50% - 0.35rem);
   }
 }
+
+/* Mobile tweaks: make featured metrics full-width with larger typography */
+@media (max-width: 576px) {
+  .mb-home-metric--featured {
+    padding: 1rem !important;
+    border-radius: 1rem;
+  }
+
+  .mb-home-metric__value--featured {
+    font-size: 2.8rem !important;
+  }
+
+  .mb-home-metric__value {
+    font-size: 1.5rem;
+  }
+
+  /* Make sure the two featured cards stack clearly and take full width */
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .mb-home-doctor-card__avatar {
+    width: 140px;
+    height: 140px;
+  }
+}
