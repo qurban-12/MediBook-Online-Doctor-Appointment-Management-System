@@ -53,6 +53,20 @@ export default function Home() {
             <p className="lead text-white-50 mt-3 mb-4">
               Manage doctor discovery, appointment booking, and patient records in one clean place.
             </p>
+            <div className="d-flex flex-wrap gap-3">
+              <div className="mb-home-hero-icon">
+                <span className="mb-home-hero-icon__mark" aria-hidden="true">🗓</span>
+                <span className="mb-home-hero-icon__text">Easy booking</span>
+              </div>
+              <div className="mb-home-hero-icon">
+                <span className="mb-home-hero-icon__mark" aria-hidden="true">👨‍⚕️</span>
+                <span className="mb-home-hero-icon__text">Top doctors</span>
+              </div>
+              <div className="mb-home-hero-icon">
+                <span className="mb-home-hero-icon__mark" aria-hidden="true">📋</span>
+                <span className="mb-home-hero-icon__text">Clear tracking</span>
+              </div>
+            </div>
           </div>
           <div className="col-lg-5">
             <div className="card border-0 shadow-lg h-100 mb-home-hero__card">
