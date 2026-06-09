@@ -22,10 +22,18 @@ const corsOptions = {
         // Allow requests with no origin (like mobile apps or curl)
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
+            return callback(null, true);
         }
+        // Allow any localhost origin (different dev ports) and 127.0.0.1
+        try {
+            const originUrl = new URL(origin);
+            if (originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1') {
+                return callback(null, true);
+            }
+        } catch (e) {
+            // ignore URL parse errors and fallthrough to deny
+        }
+        return callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
