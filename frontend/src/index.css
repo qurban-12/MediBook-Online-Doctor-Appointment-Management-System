@@ -103,18 +103,18 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.mb-home-hero-icon__mark {
-  width: 1.9rem;
-  height: 1.9rem;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  font-size: 1rem;
+.mb-home-hero-icon__svg {
+  width: 1.7rem;
+  height: 1.7rem;
+  display: inline-block;
+  padding: 0.2rem;
+  background: #fff;
+  border-radius: 999px;
+  color: var(--mb-primary);
 }
 
 .mb-home-hero-icon__text {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
 }
