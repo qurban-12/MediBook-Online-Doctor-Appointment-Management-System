@@ -63,6 +63,11 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+if (!MONGO_URI) {
+    console.error('MONGO_URI is missing. Set it in backend/.env before starting the server.');
+    process.exit(1);
+}
+
 // Start server regardless of DB connection (so APIs can still be tested/run)
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
