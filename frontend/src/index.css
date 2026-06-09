@@ -177,6 +177,17 @@ body {
   height: 128px;
 }
 
+/* Focus styles for clickable cards for accessibility */
+.mb-home-card-link:focus-visible {
+  outline: none;
+}
+
+.mb-home-card-link:focus-visible .card {
+  box-shadow: 0 1.5rem 2.5rem rgba(0, 31, 63, 0.18) !important;
+  transform: translateY(-6px);
+  border: 1px solid rgba(0,31,63,0.12);
+}
+
 .mb-home-doctor-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;

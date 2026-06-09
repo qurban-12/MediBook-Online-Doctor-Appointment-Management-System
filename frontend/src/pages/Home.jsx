@@ -166,8 +166,13 @@ export default function Home() {
         </div>
         {stats.featuredDoctors.slice(0, 3).map((doctor) => (
           <div className="col-md-4" key={doctor._id}>
-            <Link to={`/doctors/${doctor._id}`} className="text-decoration-none text-reset">
-              <div className="card shadow border-0 h-100 doctor-card mb-home-doctor-card mb-home-doctor-card--featured">
+            <Link
+              to={`/doctors/${doctor._id}`}
+              className="text-decoration-none text-reset d-block mb-home-card-link"
+              role="link"
+              aria-label={`View profile: ${doctor.name}`}
+            >
+              <div className="card shadow border-0 h-100 doctor-card mb-home-doctor-card mb-home-doctor-card--featured" tabIndex={-1}>
                 <div className="card-body text-center p-4 p-lg-5">
                   <span className="badge text-bg-light text-primary mb-3">Featured doctor</span>
                   <img
