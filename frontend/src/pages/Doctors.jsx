@@ -16,17 +16,11 @@ export default function Doctors() {
     const loadDoctors = async () => {
       try {
         const response = await api.get('/doctors');
-        if (active) {
-          setDoctors(response.data);
-        }
-      } catch (err) {
-        if (active) {
-          setError(err.response?.data?.message || 'Failed to load doctors');
-        }
+        if (active) setDoctors(response.data);
+      } catch (requestError) {
+        if (active) setError(requestError.response?.data?.message || 'Failed to load doctors');
       } finally {
-        if (active) {
-          setLoading(false);
-        }
+        if (active) setLoading(false);
       }
     };
 
@@ -54,9 +48,7 @@ export default function Doctors() {
           <h1 className="h3 mb-1">Available Doctors</h1>
           <p className="text-secondary mb-0">Browse public doctor profiles from the backend.</p>
         </div>
-        {user && (
-          <Link className="btn btn-primary" to="/appointments/new">Book Appointment</Link>
-        )}
+        {user && <Link className="btn btn-primary" to="/appointments/new">Book Appointment</Link>}
       </div>
 
       <div className="mb-4">
@@ -79,15 +71,20 @@ export default function Doctors() {
       <div className="row g-4">
         {filteredDoctors.map((doctor) => (
           <div className="col-md-6 col-lg-4" key={doctor._id}>
-            <div className="card h-100 shadow-sm border-0">
-              <img
-                src={doctor.image || 'https://via.placeholder.com/600x360?text=MediBook'}
-                alt={doctor.name}
-                className="card-img-top"
-                style={{ height: 200, objectFit: 'cover' }}
-              />
-              <div className="card-body">
-                <h2 className="h5 mb-1"><Link to={`/doctors/${doctor._id}`}>{doctor.name}</Link></h2>
+            <div className="card h-100 shadow-lg border-0 position-relative doctor-card">
+              <div className="card-body text-center">
+                <Link to={`/doctors/${doctor._id}`} className="doctor-avatar-link mb-3" aria-label={`Open ${doctor.name} details`}>
+                  <img
+                    src={doctor.image || 'https://ui-avatars.com/api/?name=MediBook&background=001f3f&color=ffffff&size=512&bold=true'}
+                    alt={doctor.name}
+                    className="doctor-avatar"
+                  />
+                </Link>
+                <h2 className="h5 mb-1">
+                  <Link className="doctor-card__title" to={`/doctors/${doctor._id}`}>
+                    {doctor.name}
+                  </Link>
+                </h2>
                 <p className="text-primary mb-2">{doctor.specialization}</p>
                 {doctor.description && <p className="text-secondary small mb-2">{doctor.description}</p>}
                 <div className="small text-secondary mb-2">Experience: {doctor.experience} years</div>
@@ -95,7 +92,7 @@ export default function Doctors() {
                 {Array.isArray(doctor.availableSlots) && doctor.availableSlots.length > 0 && (
                   <div>
                     <div className="fw-semibold mb-2">Available slots</div>
-                    <div className="d-flex flex-wrap gap-2">
+                    <div className="d-flex flex-wrap gap-2 justify-content-center">
                       {doctor.availableSlots.map((slot) => (
                         <span className="badge text-bg-light border" key={slot}>{slot}</span>
                       ))}
@@ -104,16 +101,13 @@ export default function Doctors() {
                 )}
                 {user && (
                   <div className="mt-3">
-                    <Link
-                      className="btn btn-outline-primary btn-sm"
-                      to="/appointments/new"
-                      state={{ doctor }}
-                    >
+                    <Link className="btn btn-outline-primary btn-sm" to="/appointments/new" state={{ doctor }}>
                       Book this doctor
                     </Link>
                   </div>
                 )}
               </div>
+              <Link className="stretched-link" to={`/doctors/${doctor._id}`} aria-label={`View ${doctor.name} details`} />
             </div>
           </div>
         ))}

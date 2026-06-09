@@ -46,11 +46,10 @@ export default function DoctorDetails() {
       <div className="card shadow-sm border-0 p-4">
         <div className="row g-3">
           <div className="col-md-4 text-center">
-            <img
-              src={doctor.image || 'https://via.placeholder.com/600x600?text=MediBook'}
-              alt={doctor.name}
-              className="img-fluid rounded-4 shadow-sm"
-              style={{ maxHeight: 280, objectFit: 'cover' }}
+              <img
+                src={doctor.image || 'https://ui-avatars.com/api/?name=MediBook&background=001f3f&color=ffffff&size=512&bold=true'}
+                alt={doctor.name}
+                className="doctor-avatar doctor-avatar--lg mx-auto"
             />
           </div>
           <div className="col-md-8">

@@ -3,13 +3,15 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Doctor = require('../models/Doctor');
 
+const avatarFor = (name) => `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=001f3f&color=ffffff&size=512&bold=true`;
+
 const doctors = [
   {
     name: 'Dr Qurban Ali Rajar',
     specialization: 'Cardiologist',
     experience: 12,
     fee: 1800,
-    image: 'https://i.pravatar.cc/300?img=11',
+    image: avatarFor('Dr Qurban Ali Rajar'),
     description: 'Senior cardiologist focused on preventive heart care, hypertension control, and long-term cardiac management for adult patients.',
     availableSlots: ['09:00 AM', '11:30 AM', '04:00 PM']
   },
@@ -23,11 +25,11 @@ const doctors = [
     availableSlots: ['10:00 AM', '01:00 PM', '05:30 PM']
   },
   {
-    name: 'Dr Hassan Shah',
+    name: 'Dr Mumtaz Ali',
     specialization: 'Dermatologist',
     experience: 8,
     fee: 1200,
-    image: 'https://i.pravatar.cc/300?img=15',
+    image: avatarFor('Dr Mumtaz Ali'),
     description: 'Dermatology specialist treating acne, allergies, skin infections, and long-term skin health concerns.',
     availableSlots: ['09:30 AM', '12:30 PM', '03:30 PM']
   },
@@ -41,11 +43,11 @@ const doctors = [
     availableSlots: ['08:30 AM', '11:00 AM', '02:30 PM']
   },
   {
-    name: 'Dr Imran Ali',
+    name: 'Dr Ghulam Qadir Junjeo',
     specialization: 'Orthopedic Surgeon',
     experience: 14,
     fee: 2200,
-    image: 'https://i.pravatar.cc/300?img=56',
+    image: avatarFor('Dr Ghulam Qadir Junjeo'),
     description: 'Orthopedic surgeon specializing in fractures, joint pain, sports injuries, and mobility restoration treatments.',
     availableSlots: ['10:30 AM', '01:30 PM', '06:00 PM']
   }
@@ -64,7 +66,7 @@ async function seedDoctors() {
 
   for (const doctor of doctors) {
     const result = await Doctor.updateOne(
-      { name: doctor.name, specialization: doctor.specialization },
+      { specialization: doctor.specialization },
       { $set: doctor },
       { upsert: true }
     );
