@@ -188,6 +188,33 @@ body {
   border: 1px solid rgba(0,31,63,0.12);
 }
 
+/* Ripple effect styles */
+.ripple-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mb-home-card-link .card {
+  position: relative;
+  z-index: 1;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.32);
+  transform: scale(0);
+  animation: mb-ripple 650ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes mb-ripple {
+  to { transform: scale(1); opacity: 0; }
+}
+
 .mb-home-doctor-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;

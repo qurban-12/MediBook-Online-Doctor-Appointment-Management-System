@@ -34,6 +34,46 @@ export default function Home() {
     { label: 'Approved', value: stats.approvedAppointments },
   ]), [stats]);
 
+  const createRipple = (event) => {
+    try {
+      const target = event.currentTarget;
+      if (!target) return;
+
+      // Ensure the link is positioned for absolute children
+      if (getComputedStyle(target).position === 'static') {
+        target.style.position = 'relative';
+      }
+
+      let container = target.querySelector('.ripple-container');
+      if (!container) {
+        container = document.createElement('span');
+        container.className = 'ripple-container';
+        container.style.position = 'absolute';
+        container.style.inset = '0';
+        container.style.overflow = 'hidden';
+        container.style.pointerEvents = 'none';
+        container.style.borderRadius = getComputedStyle(target).borderRadius || '0px';
+        target.appendChild(container);
+      }
+
+      const rect = target.getBoundingClientRect();
+      const diameter = Math.max(rect.width, rect.height) * 1.2;
+      const radius = diameter / 2;
+      const circle = document.createElement('span');
+      circle.className = 'ripple';
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - rect.left - radius}px`;
+      circle.style.top = `${event.clientY - rect.top - radius}px`;
+      container.appendChild(circle);
+
+      window.setTimeout(() => {
+        if (circle && circle.parentNode) circle.parentNode.removeChild(circle);
+      }, 650);
+    } catch (err) {
+      // fail silently
+    }
+  };
+
   return (
     <div className="container py-5">
       <section className="mb-home-hero p-4 p-lg-5 mb-4">
