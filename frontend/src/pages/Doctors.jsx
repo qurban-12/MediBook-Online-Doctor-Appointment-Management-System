@@ -8,6 +8,7 @@ export default function Doctors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
+  const [selectedSpecialization, setSelectedSpecialization] = useState('');
   const { user } = useAuth();
 
   useEffect(() => {
@@ -31,15 +32,32 @@ export default function Doctors() {
     };
   }, []);
 
+  // Extract unique specializations from doctors
+  const uniqueSpecializations = useMemo(() => {
+    const specs = new Set(doctors.map((d) => d.specialization).filter(Boolean));
+    return Array.from(specs).sort();
+  }, [doctors]);
+
   const filteredDoctors = useMemo(() => {
+    let result = doctors;
+
+    // Apply specialization filter
+    if (selectedSpecialization) {
+      result = result.filter((doctor) => doctor.specialization === selectedSpecialization);
+    }
+
+    // Apply search query
     const normalizedQuery = query.trim().toLowerCase();
-    if (!normalizedQuery) return doctors;
-    return doctors.filter((doctor) => {
-      const name = doctor.name?.toLowerCase() || '';
-      const specialization = doctor.specialization?.toLowerCase() || '';
-      return name.includes(normalizedQuery) || specialization.includes(normalizedQuery);
-    });
-  }, [doctors, query]);
+    if (normalizedQuery) {
+      result = result.filter((doctor) => {
+        const name = doctor.name?.toLowerCase() || '';
+        const specialization = doctor.specialization?.toLowerCase() || '';
+        return name.includes(normalizedQuery) || specialization.includes(normalizedQuery);
+      });
+    }
+
+    return result;
+  }, [doctors, query, selectedSpecialization]);
 
   return (
     <div className="container py-5">
@@ -61,11 +79,48 @@ export default function Doctors() {
         />
       </div>
 
+      {/* Filter by Specialization */}
+      <div className="mb-4">
+        <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+          <h6 className="mb-0 fw-semibold">Filter by Specialization</h6>
+          {selectedSpecialization && (
+            <button
+              className="btn btn-link btn-sm text-decoration-none"
+              onClick={() => setSelectedSpecialization('')}
+            >
+              Clear Filter
+            </button>
+          )}
+        </div>
+        <div className="d-flex flex-wrap gap-2">
+          {uniqueSpecializations.length === 0 ? (
+            <span className="text-secondary small">No specializations available</span>
+          ) : (
+            uniqueSpecializations.map((spec) => (
+              <button
+                key={spec}
+                type="button"
+                className={`btn btn-sm ${
+                  selectedSpecialization === spec ? 'btn-primary' : 'btn-outline-primary'
+                }`}
+                onClick={() => setSelectedSpecialization(selectedSpecialization === spec ? '' : spec)}
+              >
+                {spec}
+              </button>
+            ))
+          )}
+        </div>
+      </div>
+
       {loading && <div className="alert alert-info">Loading doctors...</div>}
       {error && <div className="alert alert-danger">{error}</div>}
 
       {!loading && !error && filteredDoctors.length === 0 && (
-        <div className="alert alert-secondary">No doctors available yet.</div>
+        <div className="alert alert-secondary">
+          {query || selectedSpecialization
+            ? 'No doctors match your search or filter criteria.'
+            : 'No doctors available yet.'}
+        </div>
       )}
 
       <div className="row g-4">
