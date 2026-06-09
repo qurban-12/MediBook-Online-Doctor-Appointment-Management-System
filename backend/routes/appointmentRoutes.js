@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const {
     bookAppointment,
     getAllAppointments,
+    getMyAppointments,
     getAppointmentById,
     updateAppointment,
     patchAppointmentStatus,
@@ -26,6 +27,7 @@ router.post(
 ); // POST: Book new appointment (authenticated)
 
 router.get('/', auth, getAllAppointments); // GET: Fetch all appointments (authenticated)
+router.get('/my', auth, getMyAppointments); // GET: Fetch appointments for logged-in user
 router.get('/:id', auth, getAppointmentById); // GET: Fetch single appointment (authenticated)
 router.put('/:id', auth, updateAppointment); // PUT: Update entire appointment (authenticated)
 router.patch('/:id', auth, patchAppointmentStatus); // PATCH: Update status specifically (authenticated)

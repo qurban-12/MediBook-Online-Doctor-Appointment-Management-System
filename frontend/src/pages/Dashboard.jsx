@@ -7,6 +7,12 @@ export default function Dashboard() {
   const { user } = useAuth();
   const [doctors, setDoctors] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [dashboardStats, setDashboardStats] = useState({
+    totalAppointments: 0,
+    upcomingAppointments: 0,
+    completedAppointments: 0,
+    cancelledAppointments: 0,
+  });
   const [doctorForm, setDoctorForm] = useState({ name: '', specialization: '', experience: '', fee: '', image: '', availableSlots: '' });
   const [doctorError, setDoctorError] = useState('');
   const [dashboardMessage, setDashboardMessage] = useState('');
@@ -16,12 +22,19 @@ export default function Dashboard() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [doctorResponse, appointmentResponse] = await Promise.all([
+        const [doctorResponse, myAppointmentResponse, statsResponse] = await Promise.all([
           api.get('/doctors'),
-          api.get('/appointments').catch(() => ({ data: [] })),
+          api.get('/appointments/my').catch(() => ({ data: [] })),
+          api.get('/dashboard/stats').catch(() => ({ data: dashboardStats })),
         ]);
         setDoctors(doctorResponse.data);
-        setAppointments(appointmentResponse.data);
+        setAppointments(myAppointmentResponse.data);
+        setDashboardStats({
+          totalAppointments: statsResponse.data.totalAppointments ?? 0,
+          upcomingAppointments: statsResponse.data.upcomingAppointments ?? 0,
+          completedAppointments: statsResponse.data.completedAppointments ?? 0,
+          cancelledAppointments: statsResponse.data.cancelledAppointments ?? 0,
+        });
       } catch (requestError) {
         setDoctorError(requestError.response?.data?.message || 'Failed to load dashboard data');
       }
@@ -30,49 +43,11 @@ export default function Dashboard() {
     loadData();
   }, []);
 
-  const visibleAppointments = useMemo(() => {
-    if (user?.role === 'admin') {
-      return appointments;
-    }
-
-    return appointments.filter((appointment) => appointment.patientId?._id === user?.id);
-  }, [appointments, user?.id, user?.role]);
-
-  const stats = useMemo(() => {
-    const today = new Date();
-    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const tomorrowStart = new Date(todayStart);
-    tomorrowStart.setDate(todayStart.getDate() + 1);
-
-    const uniquePatients = new Set(appointments.map((appointment) => appointment.patientId?._id).filter(Boolean)).size;
-    const upcomingAppointments = visibleAppointments.filter((appointment) => {
-      const appointmentDate = new Date(appointment.appointmentDate);
-      return appointmentDate >= todayStart && appointment.status !== 'Cancelled' && appointment.status !== 'Completed';
-    }).length;
-
-    const todayAppointments = visibleAppointments.filter((appointment) => {
-      const appointmentDate = new Date(appointment.appointmentDate);
-      return appointmentDate >= todayStart && appointmentDate < tomorrowStart;
-    }).length;
-
-    return {
-      doctorCount: doctors.length,
-      appointmentCount: visibleAppointments.length,
-      pendingCount: visibleAppointments.filter((appointment) => appointment.status === 'Pending').length,
-      approvedCount: visibleAppointments.filter((appointment) => appointment.status === 'Approved').length,
-      completedCount: visibleAppointments.filter((appointment) => appointment.status === 'Completed').length,
-      cancelledCount: visibleAppointments.filter((appointment) => appointment.status === 'Cancelled').length,
-      upcomingCount: upcomingAppointments,
-      todayCount: todayAppointments,
-      patientCount: uniquePatients,
-    };
-  }, [appointments, doctors.length, visibleAppointments]);
-
   const recentAppointments = useMemo(() => {
-    return [...visibleAppointments]
+    return [...appointments]
       .sort((left, right) => new Date(right.createdAt || right.appointmentDate) - new Date(left.createdAt || left.appointmentDate))
       .slice(0, 5);
-  }, [visibleAppointments]);
+  }, [appointments]);
 
   const statusBadgeClass = (status) => {
     if (status === 'Approved') return 'success';
@@ -172,17 +147,10 @@ export default function Dashboard() {
       {appointmentError && <div className="alert alert-danger mt-4">{appointmentError}</div>}
 
       <div className="row g-3 mt-4">
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.doctorCount}</div><div className="text-secondary">Doctors</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.appointmentCount}</div><div className="text-secondary">Booked</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.todayCount}</div><div className="text-secondary">Today</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.upcomingCount}</div><div className="text-secondary">Upcoming</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.pendingCount}</div><div className="text-secondary">Pending</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.approvedCount}</div><div className="text-secondary">Approved</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.completedCount}</div><div className="text-secondary">Completed</div></div></div></div>
-        <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.cancelledCount}</div><div className="text-secondary">Cancelled</div></div></div></div>
-        {user?.role === 'admin' && (
-          <div className="col-md-3"><div className="card shadow-sm border-0 h-100"><div className="card-body text-center"><div className="h4 mb-0">{stats.patientCount}</div><div className="text-secondary">Patients</div></div></div></div>
-        )}
+        <div className="col-md-3"><div className="card shadow-sm border-0 h-100 mb-home-metric mb-home-metric--featured"><div className="card-body text-center p-4"><div className="mb-home-metric__value">{dashboardStats.totalAppointments}</div><div className="text-secondary fw-semibold">Total Appointments</div></div></div></div>
+        <div className="col-md-3"><div className="card shadow-sm border-0 h-100 mb-home-metric mb-home-metric--featured"><div className="card-body text-center p-4"><div className="mb-home-metric__value">{dashboardStats.upcomingAppointments}</div><div className="text-secondary fw-semibold">Upcoming Appointments</div></div></div></div>
+        <div className="col-md-3"><div className="card shadow-sm border-0 h-100 mb-home-metric mb-home-metric--featured"><div className="card-body text-center p-4"><div className="mb-home-metric__value">{dashboardStats.completedAppointments}</div><div className="text-secondary fw-semibold">Completed Appointments</div></div></div></div>
+        <div className="col-md-3"><div className="card shadow-sm border-0 h-100 mb-home-metric mb-home-metric--featured"><div className="card-body text-center p-4"><div className="mb-home-metric__value">{dashboardStats.cancelledAppointments}</div><div className="text-secondary fw-semibold">Cancelled Appointments</div></div></div></div>
       </div>
 
       <div className="mt-4 d-flex gap-2 flex-wrap">

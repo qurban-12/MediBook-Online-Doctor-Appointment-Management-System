@@ -43,12 +43,14 @@ app.use(limiter);
 const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const statsRoutes = require('./routes/statsRoutes');
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/stats', statsRoutes);
 
 // Routes

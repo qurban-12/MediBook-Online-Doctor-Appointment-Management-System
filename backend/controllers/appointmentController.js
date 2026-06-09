@@ -1,4 +1,5 @@
 const Appointment = require('../models/Appointment');
+const mongoose = require('mongoose');
 
 // @route   POST /api/appointments
 // @desc    Book a new appointment
@@ -38,6 +39,28 @@ exports.getAllAppointments = async (req, res) => {
         res.status(200).json(appointments);
     } catch (error) {
         console.error(error.message);
+        res.status(500).json({ message: 'Something went wrong. Please try again later' });
+    }
+};
+
+// @route   GET /api/appointments/my
+// @desc    Get appointments for the authenticated user
+exports.getMyAppointments = async (req, res) => {
+    try {
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+        }
+
+        const appointments = await Appointment.find({ patientId: req.user.id })
+            .populate('doctorId', 'name specialization fee image')
+            .sort({ appointmentDate: 1, createdAt: -1 });
+
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.error(error.message);
+        if (error.name === 'MongooseError' || /buffering timed out/i.test(error.message || '')) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+        }
         res.status(500).json({ message: 'Something went wrong. Please try again later' });
     }
 };
