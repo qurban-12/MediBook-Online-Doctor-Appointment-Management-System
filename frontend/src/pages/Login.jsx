@@ -50,7 +50,7 @@ export default function Login() {
             </button>
           </div>
         </div>
-        <button className="btn btn-primary" type="submit">Login</button>
+        <button className="btn" type="submit" style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }}>Login</button>
       </form>
       <p className="mt-3 text-secondary">
         New here? <Link to="/register">Create an account</Link>
