@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 export default function BookAppointment() {
+  const { user } = useAuth();
   const [doctors, setDoctors] = useState([]);
-  const [patientName, setPatientName] = useState('');
   const [doctorId, setDoctorId] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('');
@@ -57,10 +58,6 @@ export default function BookAppointment() {
     setError('');
 
     // Validate required fields
-    if (!patientName.trim()) {
-      setError('Patient name is required.');
-      return;
-    }
     if (!doctorId) {
       setError('Please select a doctor.');
       return;
@@ -122,16 +119,16 @@ export default function BookAppointment() {
           <input
             type="text"
             className="form-control"
-            value={patientName}
-            onChange={(event) => setPatientName(event.target.value)}
-            placeholder="Enter your full name"
-            required
+            value={user?.name || ''}
+            readOnly
+            placeholder="Your name"
           />
+          <small className="text-secondary">Appointments are booked under your account</small>
         </div>
 
         <div className="mb-3">
           <label className="form-label">Doctor</label>
-          <select className="form-select" value={doctorId} onChange={(event) => setDoctorId(event.target.value)}>
+          <select className="form-select" value={doctorId} onChange={(event) => setDoctorId(event.target.value)} required>
             <option value="">Select a doctor</option>
             {doctors.map((doctor) => (
               <option key={doctor._id} value={doctor._id}>
