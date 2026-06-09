@@ -81,7 +81,7 @@ export default function Doctors() {
           <div className="col-md-6 col-lg-4" key={doctor._id}>
             <div className="card h-100 shadow-sm border-0">
               <div className="card-body">
-                <h2 className="h5 mb-1">{doctor.name}</h2>
+                <h2 className="h5 mb-1"><Link to={`/doctors/${doctor._id}`}>{doctor.name}</Link></h2>
                 <p className="text-primary mb-2">{doctor.specialization}</p>
                 <div className="small text-secondary mb-2">Experience: {doctor.experience} years</div>
                 <div className="small text-secondary mb-3">Consultation Fee: ${doctor.fee}</div>

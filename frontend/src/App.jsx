@@ -10,6 +10,7 @@ import BookAppointment from './pages/BookAppointment';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import DoctorDetails from './pages/DoctorDetails';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
               </ProtectedRoute>
             )}
           />
+          <Route path="/doctors/:id" element={<DoctorDetails />} />
         </Routes>
       </AuthProvider>
     </Router>
