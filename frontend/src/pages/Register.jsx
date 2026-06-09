@@ -53,7 +53,7 @@ export default function Register() {
             </button>
           </div>
         </div>
-        <button className="btn btn-primary" type="submit">Register</button>
+        <button className="btn" type="submit" style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }}>Register</button>
       </form>
       <p className="mt-3 text-secondary">
         Already have an account? <Link to="/">Login</Link>
