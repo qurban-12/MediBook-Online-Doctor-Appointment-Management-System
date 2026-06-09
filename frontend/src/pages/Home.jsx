@@ -124,14 +124,22 @@ export default function Home() {
                 </p>
                 <div className="d-flex flex-column gap-3">
                   <div className="mb-home-feature">
-                    <div className="mb-home-feature__icon">✓</div>
+                    <div className="mb-home-feature__icon" aria-hidden="true">
+                      <svg className="mb-home-feature__svg" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                        <path fill="currentColor" d="M9.5 16.2 4.8 11.5l-1.4 1.4 6.1 6.1L21 7.5l-1.4-1.4z" />
+                      </svg>
+                    </div>
                     <div>
                       <div className="fw-semibold">Fast booking</div>
                       <div className="text-secondary small">Pick a doctor and reserve a slot in seconds.</div>
                     </div>
                   </div>
                   <div className="mb-home-feature">
-                    <div className="mb-home-feature__icon">⌁</div>
+                    <div className="mb-home-feature__icon" aria-hidden="true">
+                      <svg className="mb-home-feature__svg" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                        <path fill="currentColor" d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm2 3h8v2H8V7zm0 4h8v2H8v-2zm0 4h5v2H8v-2z" />
+                      </svg>
+                    </div>
                     <div>
                       <div className="fw-semibold">Live tracking</div>
                       <div className="text-secondary small">See pending, approved, completed, and cancelled status.</div>

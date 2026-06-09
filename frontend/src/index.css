@@ -137,6 +137,12 @@ body {
   flex: 0 0 auto;
 }
 
+.mb-home-feature__svg {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
 .mb-home-metric {
   background: #fff;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
