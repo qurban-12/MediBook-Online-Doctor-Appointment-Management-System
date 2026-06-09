@@ -19,8 +19,8 @@ export default function AppNavbar() {
         </button>
         <div className="navbar-nav ms-auto align-items-lg-center gap-lg-2" id="mainNav">
           <Link className="nav-link text-white" to="/home">Home</Link>
-          <Link className="nav-link text-white" to="/doctors">Doctors</Link>
           <Link className="nav-link text-white" to="/dashboard">Dashboard</Link>
+          <Link className="nav-link text-white" to="/doctors">Doctors</Link>
           <Link className="nav-link text-white" to="/appointments">Appointments</Link>
           <Link className="nav-link text-white" to="/appointments/new">Book</Link>
           <Link className="nav-link text-white" to="/profile">Profile</Link>
