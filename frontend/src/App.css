@@ -8,6 +8,15 @@
   transition: border-color 0.3s;
   margin-bottom: 24px;
 
+@media (min-width: 992px) {
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+  }
+  .navbar-nav .nav-link {
+    margin-right: 1rem;
+  }
+}
   &:hover {
     border-color: var(--accent-border);
   }
@@ -181,4 +190,27 @@
     right: 0;
     border-right-color: var(--border);
   }
+}
+
+/* Override Bootstrap primary to use navy */
+.btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: color-mix(in srgb, var(--bs-primary) 85%, black 15%) !important;
+  border-color: color-mix(in srgb, var(--bs-primary) 85%, black 15%) !important;
+}
+.btn-outline-primary {
+  color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+.badge.text-bg-primary {
+  background-color: var(--bs-primary) !important;
+  color: #fff !important;
 }

@@ -7,6 +7,7 @@ import Doctors from './pages/Doctors';
 import Dashboard from './pages/Dashboard';
 import Appointments from './pages/Appointments';
 import BookAppointment from './pages/BookAppointment';
+import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -33,6 +34,14 @@ function App() {
             element={(
               <ProtectedRoute>
                 <BookAppointment />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/profile"
+            element={(
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             )}
           />
