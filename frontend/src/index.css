@@ -7,6 +7,15 @@
   --bs-primary-rgb: 0,31,63;
 }
 
+/* Bootstrap button variables for consistent overrides */
+:root {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: #001733;
+  --bs-btn-hover-border-color: #001733;
+  --bs-btn-focus-shadow-rgb: 0,31,63;
+}
+
 body {
   margin: 0;
   background: var(--mb-secondary-bg);

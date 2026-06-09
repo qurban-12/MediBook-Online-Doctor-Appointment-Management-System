@@ -11,8 +11,14 @@ export default function Home() {
             Browse doctors, sign in securely, and manage your appointments in one place.
           </p>
           <div className="d-flex gap-3 mt-4">
-            <Link className="btn btn-primary btn-lg" to="/doctors">Find Doctors</Link>
-            <Link className="btn btn-outline-primary btn-lg" to="/register">Create Account</Link>
+            <Link className="btn btn-primary btn-lg d-flex align-items-center" to="/doctors">
+              <span className="btn-icon" aria-hidden="true" />
+              <span>Find Doctors</span>
+            </Link>
+            <Link className="btn btn-outline-primary btn-lg d-flex align-items-center" to="/register">
+              <span className="btn-icon" aria-hidden="true" />
+              <span>Create Account</span>
+            </Link>
           </div>
         </div>
         <div className="col-lg-5">

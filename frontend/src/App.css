@@ -200,8 +200,8 @@
   border-color: var(--bs-primary) !important;
 }
 .btn-primary:hover, .btn-primary:focus {
-  background-color: color-mix(in srgb, var(--bs-primary) 85%, black 15%) !important;
-  border-color: color-mix(in srgb, var(--bs-primary) 85%, black 15%) !important;
+  background-color: var(--bs-btn-hover-bg) !important;
+  border-color: var(--bs-btn-hover-border-color) !important;
 }
 .btn-outline-primary {
   color: var(--bs-primary) !important;
@@ -213,4 +213,63 @@
 .badge.text-bg-primary {
   background-color: var(--bs-primary) !important;
   color: #fff !important;
+}
+
+/* Stronger overrides to ensure all primary buttons use navy */
+.btn, .btn-lg, .btn-sm {
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn-primary {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: #fff !important;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: var(--bs-btn-hover-bg) !important;
+  border-color: var(--bs-btn-hover-border-color) !important;
+  color: #fff !important;
+}
+.btn-outline-primary {
+  color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  background-color: transparent !important;
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+  background-color: var(--bs-primary) !important;
+  color: #fff !important;
+  border-color: var(--bs-primary) !important;
+}
+
+/* Button icon circle */
+.btn-icon {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--bs-primary);
+  margin-right: 12px;
+}
+
+/* Make outline primary filled navy as requested */
+.btn-outline-primary {
+  background-color: var(--bs-primary) !important;
+  color: #fff !important;
+  border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary .btn-icon {
+  background: #fff;
+  border-color: #fff;
+}
+
+/* Ensure headings and other primary texts use the navy color */
+h1.text-primary, .display-5.text-primary, .h1.text-primary, .h2.text-primary, .h3.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+/* Override background utility */
+.bg-primary {
+  background-color: var(--bs-primary) !important;
 }
