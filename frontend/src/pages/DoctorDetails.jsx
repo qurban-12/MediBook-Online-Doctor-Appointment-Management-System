@@ -38,8 +38,8 @@ export default function DoctorDetails() {
           <p className="text-secondary mb-0">{doctor.specialization}</p>
         </div>
         <div className="d-flex gap-2">
-          <Link className="btn btn-outline-primary" to="/doctors">Back</Link>
-          <button className="btn btn-primary" onClick={() => navigate('/appointments/new', { state: { doctor } })}>Book Appointment</button>
+          <Link className="btn btn-outline-secondary" to="/doctors">Back</Link>
+          <button className="btn" style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }} onClick={() => navigate('/appointments/new', { state: { doctor } })}>Book Appointment</button>
         </div>
       </div>
 

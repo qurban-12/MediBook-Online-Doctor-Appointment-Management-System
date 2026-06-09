@@ -154,13 +154,16 @@ export default function Doctors() {
                     </div>
                   </div>
                 )}
-                {user && (
-                  <div className="mt-3">
-                    <Link className="btn btn-outline-primary btn-sm" to="/appointments/new" state={{ doctor }}>
-                      Book this doctor
+                <div className="mt-3 d-flex gap-2 justify-content-center">
+                  <Link className="btn btn-sm" style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }} to={`/doctors/${doctor._id}`}>
+                    View Profile
+                  </Link>
+                  {user && (
+                    <Link className="btn btn-sm" style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }} to="/appointments/new" state={{ doctor }}>
+                      Book Appointment
                     </Link>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
               <Link className="stretched-link" to={`/doctors/${doctor._id}`} aria-label={`View ${doctor.name} details`} />
             </div>
