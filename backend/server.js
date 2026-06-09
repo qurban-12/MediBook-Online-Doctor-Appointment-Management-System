@@ -12,6 +12,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Import Routes
+const authRoutes = require('./routes/authRoutes');
+
+// Mount Routes
+app.use('/api/auth', authRoutes);
+
 // Routes
 app.get('/', (req, res) => {
     res.send('MediBook API is running...');
