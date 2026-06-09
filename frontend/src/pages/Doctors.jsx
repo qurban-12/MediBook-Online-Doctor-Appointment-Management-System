@@ -66,7 +66,7 @@ export default function Doctors() {
           <h1 className="h3 mb-1">Available Doctors</h1>
           <p className="text-secondary mb-0">Browse public doctor profiles from the backend.</p>
         </div>
-        {user && <Link className="btn btn-primary" to="/appointments/new">Book Appointment</Link>}
+        {user && <Link className="btn" style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }} to="/appointments/new">Book Appointment</Link>}
       </div>
 
       <div className="mb-4">
@@ -85,7 +85,8 @@ export default function Doctors() {
           <h6 className="mb-0 fw-semibold">Filter by Specialization</h6>
           {selectedSpecialization && (
             <button
-              className="btn btn-link btn-sm text-decoration-none"
+              className="btn btn-sm text-decoration-none"
+              style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }}
               onClick={() => setSelectedSpecialization('')}
             >
               Clear Filter
@@ -100,9 +101,12 @@ export default function Doctors() {
               <button
                 key={spec}
                 type="button"
-                className={`btn btn-sm ${
-                  selectedSpecialization === spec ? 'btn-primary' : 'btn-outline-primary'
-                }`}
+                className="btn btn-sm"
+                style={{
+                  backgroundColor: selectedSpecialization === spec ? '#001f3f' : 'white',
+                  borderColor: '#001f3f',
+                  color: selectedSpecialization === spec ? 'white' : '#001f3f'
+                }}
                 onClick={() => setSelectedSpecialization(selectedSpecialization === spec ? '' : spec)}
               >
                 {spec}
@@ -149,7 +153,7 @@ export default function Doctors() {
                     <div className="fw-semibold mb-2">Available slots</div>
                     <div className="d-flex flex-wrap gap-2 justify-content-center">
                       {doctor.availableSlots.map((slot) => (
-                        <span className="badge text-bg-light border" key={slot}>{slot}</span>
+                        <span className="badge" style={{ backgroundColor: '#001f3f', color: 'white' }} key={slot}>{slot}</span>
                       ))}
                     </div>
                   </div>
