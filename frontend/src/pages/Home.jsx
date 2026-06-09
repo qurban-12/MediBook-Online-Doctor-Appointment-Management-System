@@ -41,11 +41,8 @@ export default function Home() {
           <div className="col-lg-7">
             <span className="badge text-bg-light text-primary mb-3">MediBook Healthcare Platform</span>
             <h1 className="display-5 fw-bold text-white">Welcome to MediBook.</h1>
-            <p className="lead text-white-50 mt-3 mb-4">
-              Manage doctor discovery, appointment booking, and patient records in one clean place.
-            </p>
-            <div className="d-flex gap-3 mt-4 flex-wrap">
-              <Link className="btn btn-light btn-lg d-flex align-items-center" to="/register">
+            <div className="d-flex gap-3 mt-3 mb-3 flex-wrap">
+              <Link className="btn btn-light btn-lg d-flex align-items-center mb-home-cta" to="/register">
                 <span className="btn-icon" aria-hidden="true" />
                 <span>Book Appointment</span>
               </Link>
@@ -53,6 +50,9 @@ export default function Home() {
                 <span>Browse Doctors</span>
               </Link>
             </div>
+            <p className="lead text-white-50 mt-3 mb-4">
+              Manage doctor discovery, appointment booking, and patient records in one clean place.
+            </p>
           </div>
           <div className="col-lg-5">
             <div className="card border-0 shadow-lg h-100 mb-home-hero__card">
@@ -136,24 +136,28 @@ export default function Home() {
       <div className="row g-4 align-items-start">
         <div className="col-lg-12">
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <h2 className="h4 mb-0">Featured doctors</h2>
-            <Link className="small text-decoration-none" to="/doctors">View all</Link>
+            <div>
+              <div className="text-secondary small text-uppercase fw-semibold">Top picks</div>
+              <h2 className="h4 mb-0">Featured doctors</h2>
+            </div>
+            <Link className="btn btn-outline-primary btn-sm" to="/doctors">View all</Link>
           </div>
         </div>
         {stats.featuredDoctors.slice(0, 3).map((doctor) => (
           <div className="col-md-4" key={doctor._id}>
-            <div className="card shadow-sm border-0 h-100 doctor-card mb-home-doctor-card">
-              <div className="card-body text-center p-4">
+            <div className="card shadow border-0 h-100 doctor-card mb-home-doctor-card mb-home-doctor-card--featured">
+              <div className="card-body text-center p-4 p-lg-5">
+                <span className="badge text-bg-light text-primary mb-3">Featured doctor</span>
                 <img
                   src={doctor.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(doctor.name || 'Doctor')}&background=001f3f&color=f7f8f6&size=192`}
                   alt={doctor.name}
-                  className="doctor-avatar doctor-avatar--lg mb-3"
+                  className="doctor-avatar doctor-avatar--lg mb-3 mb-home-doctor-card__avatar"
                 />
                 <h3 className="h5 mb-1">{doctor.name}</h3>
                 <p className="text-secondary mb-2">{doctor.specialization}</p>
                 <div className="small text-secondary mb-3">{doctor.experience} years experience · ${doctor.fee}</div>
-                <Link className="btn btn-outline-primary btn-sm" to="/doctors">
-                  View Doctors
+                <Link className="btn btn-primary btn-sm px-4" to="/doctors">
+                  View profile
                 </Link>
               </div>
             </div>
