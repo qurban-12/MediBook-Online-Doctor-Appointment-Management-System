@@ -4,9 +4,11 @@ import api from '../services/api';
 
 export default function BookAppointment() {
   const [doctors, setDoctors] = useState([]);
+  const [patientName, setPatientName] = useState('');
   const [doctorId, setDoctorId] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('');
+  const [reason, setReason] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -52,14 +54,43 @@ export default function BookAppointment() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSubmitting(true);
     setError('');
+
+    // Validate required fields
+    if (!patientName.trim()) {
+      setError('Patient name is required.');
+      return;
+    }
+    if (!doctorId) {
+      setError('Please select a doctor.');
+      return;
+    }
+    if (!appointmentDate) {
+      setError('Appointment date is required.');
+      return;
+    }
+    if (!timeSlot.trim()) {
+      setError('Time slot is required.');
+      return;
+    }
+
+    // Validate future date
+    const selectedDate = new Date(appointmentDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+      setError('Please select a future date for your appointment.');
+      return;
+    }
+
+    setSubmitting(true);
 
     try {
       await api.post('/appointments', {
         doctorId,
         appointmentDate,
         timeSlot,
+        reason,
       });
       navigate('/appointments', { state: { message: 'Appointment booked successfully.' } });
     } catch (requestError) {
@@ -87,8 +118,21 @@ export default function BookAppointment() {
 
       <form className="card shadow-sm border-0 p-4" onSubmit={handleSubmit}>
         <div className="mb-3">
+          <label className="form-label">Patient Name</label>
+          <input
+            type="text"
+            className="form-control"
+            value={patientName}
+            onChange={(event) => setPatientName(event.target.value)}
+            placeholder="Enter your full name"
+            required
+          />
+        </div>
+
+        <div className="mb-3">
           <label className="form-label">Doctor</label>
           <select className="form-select" value={doctorId} onChange={(event) => setDoctorId(event.target.value)}>
+            <option value="">Select a doctor</option>
             {doctors.map((doctor) => (
               <option key={doctor._id} value={doctor._id}>
                 {doctor.name} — {doctor.specialization}
@@ -111,6 +155,7 @@ export default function BookAppointment() {
               className="form-control"
               value={appointmentDate}
               onChange={(event) => setAppointmentDate(event.target.value)}
+              min={new Date().toISOString().split('T')[0]}
               required
             />
           </div>
@@ -127,7 +172,18 @@ export default function BookAppointment() {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary mt-4" disabled={submitting}>
+        <div className="mb-3">
+          <label className="form-label">Reason for Visit</label>
+          <textarea
+            className="form-control"
+            value={reason}
+            onChange={(event) => setReason(event.target.value)}
+            placeholder="Describe your symptoms or reason for appointment (optional)"
+            rows="3"
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary mt-4" disabled={submitting} style={{ backgroundColor: '#001f3f', borderColor: '#001f3f', color: 'white' }}>
           {submitting ? 'Booking...' : 'Book Appointment'}
         </button>
       </form>

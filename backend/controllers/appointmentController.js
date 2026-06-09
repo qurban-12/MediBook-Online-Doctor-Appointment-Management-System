@@ -6,14 +6,15 @@ const mongoose = require('mongoose');
 exports.bookAppointment = async (req, res) => {
     try {
         // Prefer authenticated user as patientId; fall back to body
-        const { patientId: bodyPatientId, doctorId, appointmentDate, timeSlot } = req.body;
+        const { patientId: bodyPatientId, doctorId, appointmentDate, timeSlot, reason } = req.body;
         const patientId = req.user && req.user.id ? req.user.id : bodyPatientId;
 
         const newAppointment = new Appointment({
             patientId,
             doctorId,
             appointmentDate,
-            timeSlot
+            timeSlot,
+            reason
         });
 
         await newAppointment.save();
