@@ -36,14 +36,17 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Connect to MongoDB and start server
+// Start server regardless of DB connection (so APIs can still be tested/run)
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+// Connect to MongoDB
 mongoose.connect(MONGO_URI)
     .then(() => {
-        console.log('Connected to MongoDB');
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
+        console.log('Connected to MongoDB Successfully!');
     })
     .catch((error) => {
-        console.error('MongoDB connection error:', error.message);
+        console.error('MongoDB connection error (Network/DNS Block):', error.message);
+        console.log('Please note: The API server is still running, but database features will wait for network resolution.');
     });
