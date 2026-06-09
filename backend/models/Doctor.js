@@ -21,6 +21,10 @@ const doctorSchema = new mongoose.Schema({
         type: String, // URL to the profile image
         default: ''
     },
+    description: {
+        type: String,
+        default: ''
+    },
     availableSlots: [{
         type: String // Example: "10:00 AM", "02:30 PM"
     }]

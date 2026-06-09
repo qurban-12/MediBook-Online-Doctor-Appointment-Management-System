@@ -4,7 +4,7 @@ const Doctor = require('../models/Doctor');
 // @desc    Add a new doctor
 exports.createDoctor = async (req, res) => {
     try {
-        const { name, specialization, experience, fee, availableSlots, image } = req.body;
+        const { name, specialization, experience, fee, availableSlots, image, description } = req.body;
 
         const newDoctor = new Doctor({
             name,
@@ -12,7 +12,8 @@ exports.createDoctor = async (req, res) => {
             experience,
             fee,
             availableSlots,
-            image
+            image,
+            description
         });
 
         await newDoctor.save();
@@ -58,7 +59,7 @@ exports.getDoctorById = async (req, res) => {
 exports.updateDoctor = async (req, res) => {
     try {
         // Whitelist allowed fields to avoid injection
-        const allowedFields = ['name', 'specialization', 'experience', 'fee', 'availableSlots', 'image'];
+        const allowedFields = ['name', 'specialization', 'experience', 'fee', 'availableSlots', 'image', 'description'];
         const update = {};
         allowedFields.forEach((f) => {
             if (req.body[f] !== undefined) update[f] = req.body[f];
@@ -86,7 +87,7 @@ exports.updateDoctor = async (req, res) => {
 exports.patchDoctor = async (req, res) => {
     try {
         // Only apply allowed fields from request body
-        const allowedFields = ['name', 'specialization', 'experience', 'fee', 'availableSlots', 'image'];
+        const allowedFields = ['name', 'specialization', 'experience', 'fee', 'availableSlots', 'image', 'description'];
         const update = {};
         allowedFields.forEach((f) => {
             if (req.body[f] !== undefined) update[f] = req.body[f];

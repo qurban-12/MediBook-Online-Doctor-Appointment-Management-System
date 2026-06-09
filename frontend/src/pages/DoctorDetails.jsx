@@ -32,7 +32,7 @@ export default function DoctorDetails() {
 
   return (
     <div className="container py-5">
-      <div className="d-flex align-items-center justify-content-between mb-4">
+      <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
         <div>
           <h1 className="h3 mb-1">{doctor.name}</h1>
           <p className="text-secondary mb-0">{doctor.specialization}</p>
@@ -45,16 +45,21 @@ export default function DoctorDetails() {
 
       <div className="card shadow-sm border-0 p-4">
         <div className="row g-3">
+          <div className="col-md-4 text-center">
+            <img
+              src={doctor.image || 'https://via.placeholder.com/600x600?text=MediBook'}
+              alt={doctor.name}
+              className="img-fluid rounded-4 shadow-sm"
+              style={{ maxHeight: 280, objectFit: 'cover' }}
+            />
+          </div>
           <div className="col-md-8">
             <h4 className="h5">About</h4>
             <p>{doctor.description || 'No description available.'}</p>
             <div className="small text-secondary">Experience: {doctor.experience} years</div>
             <div className="small text-secondary">Fee: ${doctor.fee}</div>
           </div>
-          <div className="col-md-4">
-            <div className="text-center">
-              <img src={doctor.image || '/placeholder.png'} alt={doctor.name} style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 8 }} />
-            </div>
+          <div className="col-12">
             {Array.isArray(doctor.availableSlots) && doctor.availableSlots.length > 0 && (
               <div className="mt-3">
                 <h6 className="mb-2">Available slots</h6>

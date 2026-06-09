@@ -80,9 +80,16 @@ export default function Doctors() {
         {filteredDoctors.map((doctor) => (
           <div className="col-md-6 col-lg-4" key={doctor._id}>
             <div className="card h-100 shadow-sm border-0">
+              <img
+                src={doctor.image || 'https://via.placeholder.com/600x360?text=MediBook'}
+                alt={doctor.name}
+                className="card-img-top"
+                style={{ height: 200, objectFit: 'cover' }}
+              />
               <div className="card-body">
                 <h2 className="h5 mb-1"><Link to={`/doctors/${doctor._id}`}>{doctor.name}</Link></h2>
                 <p className="text-primary mb-2">{doctor.specialization}</p>
+                {doctor.description && <p className="text-secondary small mb-2">{doctor.description}</p>}
                 <div className="small text-secondary mb-2">Experience: {doctor.experience} years</div>
                 <div className="small text-secondary mb-3">Consultation Fee: ${doctor.fee}</div>
                 {Array.isArray(doctor.availableSlots) && doctor.availableSlots.length > 0 && (
