@@ -17,45 +17,47 @@ function App() {
     <Router>
       <AuthProvider>
         <AppNavbar />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/doctors" element={<Doctors />} />
-          <Route
-            path="/appointments"
-            element={(
-              <ProtectedRoute>
-                <Appointments />
-              </ProtectedRoute>
-            )}
-          />
-          <Route
-            path="/appointments/new"
-            element={(
-              <ProtectedRoute>
-                <BookAppointment />
-              </ProtectedRoute>
-            )}
-          />
-          <Route
-            path="/profile"
-            element={(
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            )}
-          />
-          <Route
-            path="/dashboard"
-            element={(
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            )}
-          />
-          <Route path="/doctors/:id" element={<DoctorDetails />} />
-        </Routes>
+        <main className="mb-shell__content">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/doctors" element={<Doctors />} />
+            <Route
+              path="/appointments"
+              element={(
+                <ProtectedRoute>
+                  <Appointments />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path="/appointments/new"
+              element={(
+                <ProtectedRoute>
+                  <BookAppointment />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path="/profile"
+              element={(
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path="/dashboard"
+              element={(
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              )}
+            />
+            <Route path="/doctors/:id" element={<DoctorDetails />} />
+          </Routes>
+        </main>
       </AuthProvider>
     </Router>
   );

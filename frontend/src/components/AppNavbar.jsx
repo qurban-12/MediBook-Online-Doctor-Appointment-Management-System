@@ -11,27 +11,45 @@ export default function AppNavbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-      <div className="container">
-        <Link className="navbar-brand fw-semibold" to="/home">MediBook</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-          <span className="navbar-toggler-icon" />
-        </button>
-        <div className="navbar-nav ms-auto align-items-lg-center gap-lg-2" id="mainNav">
-          <Link className="nav-link text-white" to="/home">Home</Link>
-          <Link className="nav-link text-white" to="/dashboard">Dashboard</Link>
-          <Link className="nav-link text-white" to="/doctors">Doctors</Link>
-          <Link className="nav-link text-white" to="/appointments">Appointments</Link>
-          <Link className="nav-link text-white" to="/appointments/new">Book</Link>
-          <Link className="nav-link text-white" to="/profile">Profile</Link>
-          <span className="navbar-text text-white-50 d-none d-lg-inline">{user ? user.name : ''}</span>
-          {user ? (
-            <button type="button" className="btn btn-light btn-sm" onClick={handleLogout}>Logout</button>
-          ) : (
-            <Link className="btn btn-light btn-sm ms-lg-2" to="/register">Register</Link>
-          )}
-        </div>
+    <aside className="mb-sidebar">
+      <div className="mb-sidebar__brandRow">
+        <Link className="mb-brand" to="/home" aria-label="MediBook home">
+          <span className="mb-brand__mark">M</span>
+          <span className="mb-brand__text">
+            <span className="mb-brand__name">MediBook</span>
+            <span className="mb-brand__tag">Smart Doctor Planner</span>
+          </span>
+        </Link>
+
       </div>
-    </nav>
+
+      <nav className="mb-sidebar__nav" aria-label="Primary navigation">
+        <Link className="mb-sidebar__link" to="/home">Home</Link>
+        <Link className="mb-sidebar__link" to="/dashboard">Dashboard</Link>
+        <Link className="mb-sidebar__link" to="/doctors">Doctors</Link>
+        <Link className="mb-sidebar__link" to="/appointments">Appointments</Link>
+        <Link className="mb-sidebar__link" to="/appointments/new">Book</Link>
+        <Link className="mb-sidebar__link" to="/profile">Profile</Link>
+      </nav>
+
+      <div className="mb-sidebar__footer">
+        {user ? (
+          <div className="mb-user">
+            <div className="mb-user__meta">
+              <span className="mb-user__name">{user.name}</span>
+              <span className="mb-user__email">{user.email}</span>
+            </div>
+            <div className="mb-user__avatar" aria-hidden="true">
+              {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+            </div>
+            <button type="button" className="mb-user__action" onClick={handleLogout} title="Logout" aria-label="Logout">
+              ↘
+            </button>
+          </div>
+        ) : (
+          <Link className="btn btn-primary btn-sm w-100" to="/register">Register</Link>
+        )}
+      </div>
+    </aside>
   );
 }
