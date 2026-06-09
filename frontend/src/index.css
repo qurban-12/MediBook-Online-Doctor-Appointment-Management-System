@@ -189,9 +189,12 @@ body {
 }
 
 .mb-home-card-link:focus-visible .card {
-  box-shadow: 0 1.5rem 2.5rem rgba(0, 31, 63, 0.18) !important;
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 0 0 6px #005fcc,
+    0 1.5rem 2.5rem rgba(0, 31, 63, 0.18) !important;
   transform: translateY(-6px);
-  border: 1px solid rgba(0,31,63,0.12);
+  border: 1px solid rgba(0, 95, 204, 0.35);
 }
 
 /* Ripple effect styles */
